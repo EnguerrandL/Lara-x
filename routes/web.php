@@ -16,9 +16,13 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 |
 */
 
-Route::get('/', [DashboardController::class, 'index']);
+Route::get('/', [DashboardController::class, 'index'])->name('index');
 Route::post('/idea', [IdeaController::class, 'store'])->name('idea.create');
+Route::get('/idea/{idea}', [IdeaController::class, 'show'])->name('idea.show');
+Route::get('/idea/edit/{idea}', [IdeaController::class, 'edit'])->name('idea.edit');
+Route::put('/idea/{idea}', [IdeaController::class, 'update'])->name('idea.update');
 Route::delete('/idea/{idea}', [IdeaController::class, 'delete'])->name('idea.destroy');
+
 
 
 

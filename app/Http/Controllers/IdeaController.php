@@ -7,6 +7,42 @@ use Illuminate\Http\Request;
 
 class IdeaController extends Controller
 {
+
+
+
+
+public function show(Idea $idea)
+{
+    return view('ideas.show', [
+        'idea' => $idea,
+    ]);
+}
+
+
+public function edit(Idea $idea){
+
+    $editing  = true;
+
+    return view('ideas.edit', [
+        'idea' =>   $idea,
+        'editing' => $editing,
+    ]);
+}
+
+
+
+public function update(Idea $idea){
+
+   $data =  request()->validate([
+        'content' => 'required|min:2',
+    ]);
+
+    $idea->update($data);
+
+
+    return to_route('index')->with('success',  'Idea with id N° ' . $idea->id . ' updated with success' );
+}
+
     public function store(Request $request){
 
       
@@ -24,10 +60,8 @@ class IdeaController extends Controller
     }
 
 
-    public function delete($id){
+    public function delete(Idea $idea){
 
-
-       $idea = Idea::where('id', $id)->firstOrFail();
 
         $idea->delete();
 
