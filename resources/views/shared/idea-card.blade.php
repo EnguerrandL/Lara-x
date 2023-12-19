@@ -5,20 +5,28 @@
 
 
                 <img style="width:50px" class="me-2 avatar-sm rounded-circle"
-                    src="https://api.dicebear.com/6.x/fun-emoji/svg?seed=Mario" alt="Mario Avatar">
+                    src="https://api.dicebear.com/6.x/fun-emoji/svg?seed={{ $idea->user->name }}"
+                    alt="{{ $idea->user->name }}">
                 <div>
-                    <h5 class="card-title mb-0"><a href="#"> Mario
+                    <h5 class="card-title mb-0"><a href="#"> {{ strtoupper($idea->user->name) }}
                         </a></h5>
                 </div>
             </div>
-            <div>
-                <form action="{{ route('idea.destroy', $idea->id) }}" method="post">
+            <div class="flex col-1 ">
+                <a class="mt-2 btn btn-dark" href="{{ route('idea.show', $idea->id) }}">View</a>
+
+                @if (auth()->id() === $idea->user_id)
+                    
+          
+                <a class="mt-2 btn btn-warning" href="{{ route('idea.edit', $idea->id) }}">Edit</a>
+
+                <form class="mt-2 text-center" action="{{ route('idea.destroy', $idea->id) }}" method="post">
                     @csrf
                     @method('DELETE')
                     <button class="btn btn-danger">X</button>
-                    <a class="btn btn-warning" href="{{ route('idea.edit', $idea->id) }}">Edit</a>
-                    <a class="btn btn-dark" href="{{ route('idea.show', $idea->id) }}">View</a>
                 </form>
+                @endif
+
 
             </div>
         </div>
@@ -30,18 +38,17 @@
     <div class="card-body">
 
         @if ($editing ?? false)
-        <form action="{{ route('idea.update', $idea->id) }}" method="POST">
-            @csrf
-            @method('PUT')
-            <div class="mb-3">
-                <textarea name="content" class="form-control" id="idea" rows="3">{{ old('content', $idea->content)}}</textarea>
-    
-            </div>
-            <div class="">
-                <button class="btn btn-dark"> Share </button>
-            </div>
-        </form>
+            <form action="{{ route('idea.update', $idea->id) }}" method="POST">
+                @csrf
+                @method('PUT')
+                <div class="mb-3">
+                    <textarea name="content" class="form-control" id="idea" rows="3">{{ old('content', $idea->content) }}</textarea>
 
+                </div>
+                <div class="">
+                    <button class="btn btn-dark"> Share </button>
+                </div>
+            </form>
         @else
             <p class="fs-6 fw-light text-muted">
                 {{ $idea->content }}

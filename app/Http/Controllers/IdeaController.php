@@ -22,6 +22,13 @@ class IdeaController extends Controller
     public function edit(Idea $idea)
     {
 
+
+
+        if (auth()->id() !== $idea->user_id) {
+
+            abort(404, 'Not allowed to do this');
+        }
+
         $editing  = true;
 
         return view('ideas.edit', [
@@ -34,6 +41,11 @@ class IdeaController extends Controller
 
     public function update(Idea $idea)
     {
+
+        if (auth()->id() !== $idea->user_id) {
+
+            abort(404, 'Not allowed to do this');
+        }
 
         $data =  request()->validate([
             'content' => 'required|min:2',
@@ -53,6 +65,7 @@ class IdeaController extends Controller
             'content' => 'required|min:2',
         ]);
 
+        $validate['user_id'] = auth()->id();
         $idea =  Idea::create($validate);
 
         $idea->save();
@@ -64,6 +77,10 @@ class IdeaController extends Controller
     public function delete(Idea $idea)
     {
 
+        if (auth()->id() !== $idea->user_id) {
+
+            abort(404, 'Not allowed to do this');
+        }
 
         $idea->delete();
 

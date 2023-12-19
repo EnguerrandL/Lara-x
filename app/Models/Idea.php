@@ -12,9 +12,16 @@ class Idea extends Model
 
     protected $fillable = [
         'content',
-        'likes'
+        'likes',
+        'user_id',
     ];
 
+
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
     public function comments()
      {

@@ -1,3 +1,6 @@
+@auth
+    
+
 <h4> Share yours ideas </h4>
 <div class="row">
     @error('content')
@@ -17,3 +20,8 @@
         </div>
     </form>
 </div>
+@endauth
+
+@guest
+<h4> Login to share yours ideas </h4> 
+@endguest
