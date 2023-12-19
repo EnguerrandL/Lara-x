@@ -11,48 +11,49 @@ class IdeaController extends Controller
 
 
 
-public function show(Idea $idea)
-{
-    return view('ideas.show', [
-        'idea' => $idea,
-    ]);
-}
+    public function show(Idea $idea)
+    {
+        return view('ideas.show', [
+            'idea' => $idea,
+        ]);
+    }
 
 
-public function edit(Idea $idea){
+    public function edit(Idea $idea)
+    {
 
-    $editing  = true;
+        $editing  = true;
 
-    return view('ideas.edit', [
-        'idea' =>   $idea,
-        'editing' => $editing,
-    ]);
-}
-
-
-
-public function update(Idea $idea){
-
-   $data =  request()->validate([
-        'content' => 'required|min:2',
-    ]);
-
-    $idea->update($data);
+        return view('ideas.edit', [
+            'idea' =>   $idea,
+            'editing' => $editing,
+        ]);
+    }
 
 
-    return to_route('index')->with('success',  'Idea with id N° ' . $idea->id . ' updated with success' );
-}
 
-    public function store(Request $request){
+    public function update(Idea $idea)
+    {
 
-      
-        request()->validate([
+        $data =  request()->validate([
             'content' => 'required|min:2',
         ]);
 
-        $idea =  Idea::create([
-            'content' => $request->content
+        $idea->update($data);
+
+
+        return to_route('index')->with('success',  'Idea with id N° ' . $idea->id . ' updated with success');
+    }
+
+    public function store()
+    {
+
+
+        $validate =    request()->validate([
+            'content' => 'required|min:2',
         ]);
+
+        $idea =  Idea::create($validate);
 
         $idea->save();
 
@@ -60,13 +61,13 @@ public function update(Idea $idea){
     }
 
 
-    public function delete(Idea $idea){
+    public function delete(Idea $idea)
+    {
 
 
         $idea->delete();
 
 
         return back()->with('success', 'Idea deleted !');
-
     }
 }

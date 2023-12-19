@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\IdeaController;
@@ -32,7 +33,8 @@ Route::delete('/idea/{idea}', [IdeaController::class, 'delete'])->name('idea.des
 
 Route::post('/idea/{idea}/comments', [CommentController::class, 'store'])->name('idea.comments.store');
 
-
+Route::get('/register', [AuthController::class, 'register'])->name('register');
+Route::post('/register', [AuthController::class, 'store']);
 
 
 
