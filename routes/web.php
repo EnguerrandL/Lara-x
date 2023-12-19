@@ -20,26 +20,24 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 Route::get('/', [DashboardController::class, 'index'])->name('index');
 
+Route::group([ 'prefix' => 'idea/', 'as' =>'idea.', 'middleware' => ['auth'] ], function(){
+
+    Route::post('/', [IdeaController::class, 'store'])->name('create');
+    Route::get('{idea}', [IdeaController::class, 'show'])->name('show')->withoutMiddleware(['auth']);
+    Route::get('edit/{idea}', [IdeaController::class, 'edit'])->name('edit');
+    Route::put('{idea}', [IdeaController::class, 'update'])->name('update');
+    Route::delete('{idea}', [IdeaController::class, 'delete'])->name('destroy');
+    Route::post('{idea}/comments', [CommentController::class, 'store'])->name('comments.store');
+
+});
 
 
 
-Route::post('/idea', [IdeaController::class, 'store'])->name('idea.create')->middleware('auth');
-Route::get('/idea/{idea}', [IdeaController::class, 'show'])->name('idea.show');
-Route::get('/idea/edit/{idea}', [IdeaController::class, 'edit'])->name('idea.edit')->middleware('auth');
-Route::put('/idea/{idea}', [IdeaController::class, 'update'])->name('idea.update')->middleware('auth');
-Route::delete('/idea/{idea}', [IdeaController::class, 'delete'])->name('idea.destroy')->middleware('auth');
 
 
 
-Route::post('/idea/{idea}/comments', [CommentController::class, 'store'])->name('idea.comments.store')->middleware('auth');
 
-Route::get('/register', [AuthController::class, 'register'])->name('register');
-Route::post('/register', [AuthController::class, 'store']);
 
-Route::get('/login', [AuthController::class, 'login'])->name('login');
-Route::post('/login', [AuthController::class, 'authenticate']);
-
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
 
 
 
