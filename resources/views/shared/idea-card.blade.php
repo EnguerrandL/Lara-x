@@ -5,10 +5,10 @@
 
 
                 <img style="width:50px" class="me-2 avatar-sm rounded-circle"
-                    src="https://api.dicebear.com/6.x/fun-emoji/svg?seed={{ $idea->user->name }}"
+                    src="{{$idea->user->getImgUrl()}}"
                     alt="{{ $idea->user->name }}">
                 <div>
-                    <h5 class="card-title mb-0"><a href="#"> {{ strtoupper($idea->user->name) }}
+                    <h5 class="card-title mb-0"><a href="{{ route('user.show', $idea->user->id) }}"> {{ strtoupper($idea->user->name) }}
                         </a></h5>
                 </div>
             </div>

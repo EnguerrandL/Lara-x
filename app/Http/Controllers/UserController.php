@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -33,7 +34,7 @@ class UserController extends Controller
         $ideas = $user->ideas()->paginate(5);
         $editing = true;
 
-        return view('user.show', [
+        return view('user.edit', [
             'user' => $user,
             'editing' => $editing,
             'ideas' => $ideas
@@ -45,8 +46,30 @@ class UserController extends Controller
      */
     public function update(User $user)
     {
-        //
+        $validated = request()->validate([
+            'name' => 'required',
+            'bio' => 'nullable',
+            'image' => 'image',
+        ]);
+
+        if (request()->has('image')) {
+            $imagePath = request()->file('image')->store('profile-picture', 'public');
+            $validated['image'] = $imagePath;
+
+            Storage::disk('public')->delete($user->image);
+        }
+
+        $user->update($validated);
+
+        return redirect()->route('profile')->with('success', 'Profile updated !');
     }
 
 
+    public function profile()
+    {
+
+
+
+        return $this->show(auth()->user());
+    }
 }

@@ -32,6 +32,9 @@ Route::group([ 'prefix' => 'idea/', 'as' =>'idea.', 'middleware' => ['auth'] ], 
 
 });
 
+
+Route::get('/profile', [UserController::class, 'profile'])->middleware('auth')->name('profile'); 
+
 Route::resource('idea', IdeaController::class)->except(['index','create', 'show'])->middleware('auth');
 Route::resource('idea', IdeaController::class)->only(['show']);
 Route::resource('user', UserController::class )->only(['show', 'edit', 'update'])->middleware('auth');

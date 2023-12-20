@@ -1,41 +1,50 @@
 <div class="card">
     <div class="px-3 pt-4 pb-2">
+        <form enctype="multipart/form-data" action="{{ route('user.update', $user->id) }}" method="POST">
+
+            @csrf
+            @method('PUT')
         <div class="d-flex align-items-center justify-content-between">
             <div class="d-flex align-items-center">
                 <img style="width:150px" class="me-3 avatar-sm rounded-circle"
-                    
-                    src="{{ $user->getImgUrl() }}" alt="{{$user->name}}">
-
-
-
+                    src="{{ $user->getImgUrl() }}" alt="{{ $user->name }}">
                 <div>
-         
-                        <h3 class="card-title mb-0"><a href="#"> {{ $user->name }}
-                            </a></h3>
-                        <span class="fs-6 text-muted">{{ $user->email }}</span>
-                
+
+                    <input value="{{ old('name', $user->name) }}" name="name" type="text" class="form-control">
+                    @error('name')
+                        <span class="d-block fs-6 text-danger mt-2">{{ $message }}</span>
+                    @enderror
+
                 </div>
             </div>
             <div>
                 @auth
                     @if (Auth::id() === $user->id)
-                        <a href="{{ route('user.edit', $user) }}">Edit</a>
+                        <a href="{{ route('user.show', $user) }}">View</a>
                     @endif
                 @endauth
             </div>
         </div>
 
+        <div class="mt-4">
+            <label for="image">Profile Picture</label>
+            <input type="file" name="image" class="form-control">
+            @error('image')
+                <span class="d-block fs-6 text-danger mt-2">{{ $message }}</span>
+            @enderror
+        </div>
+
         <div class="px-2 mt-4">
             <h5 class="fs-5"> Bio : </h5>
 
-      
 
-          
-           
-                <p class="fs-6 fw-light">
-                {{ $user->bio }}
-                </p>
-           
+            <textarea class="form-control" name="bio" id="bio"> {{ old('bio', $user->bio) }}</textarea>
+            @error('bio')
+                <span class="d-block fs-6 text-danger mt-2">{{ $message }}</span>
+            @enderror
+
+            <button class="btn btn-dark btn-sm mb-3 mt-3">Save</button>
+
             <div class="d-flex justify-content-start">
                 <a href="#" class="fw-light nav-link fs-6 me-3"> <span class="fas fa-user me-1">
                     </span> 120 Followers </a>
@@ -54,5 +63,6 @@
                 @endif
             @endauth
         </div>
+    </form>
     </div>
 </div>
