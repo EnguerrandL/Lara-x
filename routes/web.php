@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\IdeaController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
@@ -22,16 +23,18 @@ Route::get('/', [DashboardController::class, 'index'])->name('index');
 
 Route::group([ 'prefix' => 'idea/', 'as' =>'idea.', 'middleware' => ['auth'] ], function(){
 
-    Route::post('/', [IdeaController::class, 'store'])->name('create');
-    Route::get('{idea}', [IdeaController::class, 'show'])->name('show')->withoutMiddleware(['auth']);
-    Route::get('edit/{idea}', [IdeaController::class, 'edit'])->name('edit');
-    Route::put('{idea}', [IdeaController::class, 'update'])->name('update');
-    Route::delete('{idea}', [IdeaController::class, 'delete'])->name('destroy');
+    // Route::post('/', [IdeaController::class, 'store'])->name('create');
+    // Route::get('{idea}', [IdeaController::class, 'show'])->name('show')->withoutMiddleware(['auth']);
+    // Route::get('edit/{idea}', [IdeaController::class, 'edit'])->name('edit');
+    // Route::put('{idea}', [IdeaController::class, 'update'])->name('update');
+    // Route::delete('{idea}', [IdeaController::class, 'destroy'])->name('destroy');
     Route::post('{idea}/comments', [CommentController::class, 'store'])->name('comments.store');
 
 });
 
-
+Route::resource('idea', IdeaController::class)->except(['index','create', 'show'])->middleware('auth');
+Route::resource('idea', IdeaController::class)->only(['show']);
+Route::resource('user', UserController::class )->only(['show', 'edit', 'update'])->middleware('auth');
 
 
 

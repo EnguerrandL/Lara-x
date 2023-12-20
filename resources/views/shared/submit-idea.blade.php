@@ -6,7 +6,7 @@
     @error('content')
         @include('shared.error-message')
     @enderror
-    <form action="{{ route('idea.create') }}" method="POST">
+    <form action="{{ route('idea.store') }}" method="POST">
         @csrf
         <div class="mb-3">
             <textarea name="content" class="form-control" id="idea" rows="3"></textarea>

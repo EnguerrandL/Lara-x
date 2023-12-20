@@ -74,7 +74,7 @@ class IdeaController extends Controller
     }
 
 
-    public function delete(Idea $idea)
+    public function destroy(Idea $idea)
     {
 
         if (auth()->id() !== $idea->user_id) {
