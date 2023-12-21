@@ -19,9 +19,10 @@
                         <a class="nav-link" href="{{ route('register') }}">Register</a>
                     </li>
                 @endguest
-                @auth()
+                @auth
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('profile') }}>{{ Auth::user()->name }}</a>
+                        <a class="nav-link" href="{{ route('profile') }}">{{ Auth::user()->name }}</a>
+                        
                     </li>
                     <li class="nav-item">
 
