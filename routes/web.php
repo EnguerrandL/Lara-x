@@ -56,4 +56,4 @@ Route::resource('user', UserController::class )->only(['show', 'edit', 'update']
 
 Route::get('/terms', function () {
     return view('terms');
-});
+})->name('terms');
