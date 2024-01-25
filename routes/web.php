@@ -5,6 +5,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FollowerController;
 use App\Http\Controllers\IdeaController;
+use App\Http\Controllers\IdeaLikeController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
@@ -41,11 +42,12 @@ Route::get('/profile', [UserController::class, 'profile'])->middleware('auth')->
 
 Route::resource('idea', IdeaController::class)->except(['index','create', 'show'])->middleware('auth');
 Route::resource('idea', IdeaController::class)->only(['show']);
-Route::resource('user', UserController::class )->only(['show', 'edit', 'update'])->middleware('auth');
+Route::resource('user', UserController::class )->only([ 'edit', 'update'])->middleware('auth');
+Route::resource('user', UserController::class )->only(['show']);
 
 
-
-
+Route::post('ideas/{idea}/like', [IdeaLikeController::class, 'like'])->middleware('auth')->name('ideas.like');
+Route::post('ideas/{idea}/unlike', [IdeaLikeController::class, 'unlike'])->middleware('auth')->name('ideas.unlike');
 
 
 
