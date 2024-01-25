@@ -16,6 +16,13 @@ class Idea extends Model
         'user_id',
     ];
 
+    // Eager loading
+
+    protected $with = [
+        'user:id,name,image',
+        // 'user',
+        'comments.user:id,name,image'
+    ];
 
 
     public function user()
